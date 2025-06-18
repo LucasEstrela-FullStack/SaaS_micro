@@ -18,7 +18,7 @@ export function MobileMenu() {
           <span className="sr-only">Abrir menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-[240px] sm:w-[300px] ">
+      <SheetContent side="right" className="w-[240px] sm:w-[300px] p-5">
         <DialogTitle>
           Menu
         </DialogTitle>
