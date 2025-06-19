@@ -36,7 +36,7 @@ export async function createUsername(data: CreateUsernameFormData){
   try{
 
     const userId = session.user.id;
-
+    
     const slug = createSlug(data.username)
 
     const existSlug = await prisma.user.findFirst({
