@@ -28,7 +28,8 @@ export async function getInfoUser(data: createUsernameSchema){
             name: true,
             username: true,
             bio: true,
-            image: true
+            image: true,
+            connectedStripeAccountId: true
         }
     })
 

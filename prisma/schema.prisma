@@ -44,11 +44,11 @@ model Donation{
 
   user User @relation("UserDaonations", fields: [userId], references: [id])
   createdAt DateTime @default(now())
-  status PaymanetStatus @default(PEDING)
+  status PaymanetStatus @default(PENDING)
 }
 
 enum PaymanetStatus {
-  PEDING
+  PENDING
   PAID
   FAILED
 }

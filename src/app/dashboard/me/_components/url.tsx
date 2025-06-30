@@ -43,7 +43,7 @@ export function UrlPreview({ username: slug }: UrlPreviewProps){
       <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-2">
         <h3 className="font-bold text-lg">Sua URL: </h3>
         <Link 
-        href={'${process.env,NEXT_PUBLIC_HOST_URL}/creator/${username}'}
+        href={`${process.env.NEXT_PUBLIC_HOST_URL}/creator/${username}`}
         target="_blank"
         >
          {process.env.NEXT_PUBLIC_HOST_URL}/creator/{username}
@@ -51,7 +51,7 @@ export function UrlPreview({ username: slug }: UrlPreviewProps){
      </div>
 
      <Link
-     href={'${process.env,NEXT_PUBLIC_HOST_URL}/creator/${username}'}
+     href={`${process.env.NEXT_PUBLIC_HOST_URL}/creator/${username}`}
      target="_blank"
      className="bg-blue-600 px-4 py-1 rounded-md hidden md:block"
      >

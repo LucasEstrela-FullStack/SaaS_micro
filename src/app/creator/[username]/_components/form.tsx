@@ -1,6 +1,6 @@
 "use client"
 
-import { number, z } from "zod"
+import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { createPayment } from "../_actions/create-payment"
+import { toast } from "sonner"
+import { getStripeJs } from "@/lib/stripe-js"
  
 const formSchema = z.object({
   name: z.string().min(1, "O nome é obrigatório"),
@@ -52,7 +54,22 @@ export function FormDonate({ slug, creatorId }: FormDonateProps){
       price: priceInCents
     })
 
-    console.log(checkout)
+    if(checkout.error){
+      toast.error(checkout.error)
+      return;
+    }
+
+    if(checkout.data){
+      const data = JSON.parse(checkout.data)
+       
+      const stripe = await getStripeJs();
+
+      await stripe?.redirectToCheckout({
+        sessionId: data.id as string
+      })
+
+
+    }
   }
 
   return(
@@ -124,7 +141,9 @@ export function FormDonate({ slug, creatorId }: FormDonateProps){
           )}
         />
 
-        <Button type="submit">Fazer Doação</Button>
+        <Button type="submit" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? "Carregando..." : "Fazer Doação"} 
+        </Button>
 
       </form>
     </Form>
