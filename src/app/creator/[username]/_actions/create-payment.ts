@@ -90,7 +90,7 @@ export async function createPayment(data: CreatePaymentSchema) {
 
 
   return {
-    data: session.id,
+    sessionId: session.id,
   }
   
 
