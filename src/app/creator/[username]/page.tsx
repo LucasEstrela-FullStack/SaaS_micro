@@ -2,6 +2,8 @@ import Image from "next/image";
 import { getInfoUser } from "./_data-access/get-info";
 import { notFound } from "next/navigation";
 import { FormDonate } from "./_components/form";
+import { CoverSection } from "./_components/cover-section";
+import { AboutSection } from "./_components/about-section";
 
 export default async function Apoia({
   params,
@@ -16,57 +18,34 @@ export default async function Apoia({
     notFound()
   }
 
-
   return (
-    <div className=" min-h-[calc(100vh-64px)]">
-      <div className="w-full h-64 relative bg-black">
-        <Image
-          src={user.image ?? "https://www.pngwing.com/pt/free-png-nousy"}
-          alt="Banner"
-          fill
-          className="object-cover opacity-50"
-          priority
-          quality={100}
-        />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+      <CoverSection 
+       coverImage={user?.image ?? ""}
+       profileImage={user?.image ?? ""}
+       name={user?.name ?? "Sem nome"}
+      />
 
-      <section className="flex flex-col w-full items-center justify-center mx-auto max-w-7xl p-4 relative">
-        <div className="flex flex-col items-center">
-          <Image
-            src={user.image ?? "https://www.pngwing.com/pt/free-png-nousy"}
-            className="w-36 h-36 rounded-xl bg-gray-50 hover:shadow-lg duration-300 select-none text-zinc-900 text-3xl flex items-center justify-center object-cover absolute -top-16 border-4 border-white"
-            alt="Matheus Fraga"
-            width={96}
-            height={96}
-            quality={100}
-          />
-          <h1 className=" font-bold text-xl md:text-2xl mt-20 mb-4">
-            {user.name ?? "Sem Nome"}
-          </h1>
+      <main className="container mx-auto max-w-6xl p-4 sm:p-6">
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 -mt-8 md:-mt-16 relative z-10">
+          <div className="order-2 lg:order-1">
+            <AboutSection 
+            name={user?.name ?? "Sem Nome"} 
+            description={user?.bio ?? "Sem Biografia"}
+            />
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <FormDonate 
+              slug={user.username!} 
+              creatorId={user.connectedStripeAccountId ?? ""}
+            /> 
+          </div>
         </div>
-      </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 w-full mx-auto gap-4 max-w-5xl">
-        <section className="flex flex-col bg-gray-50 p-5 rounded-md h-fit mx-2">
-          <p className="font-semibold text-lg">
-            Sobre {user.name ?? ""}
-          </p>
-          <p className="text-gray-500 mt-2">
-            {user.bio ?? "Sem biografia"}
-          </p>
-        </section>
+      </main>
 
-        <section
-          className="bg-gray-50 rounded-md p-5 h-fit mx-2"
-        >
-          <h3 className="font-semibold text-lg">
-            {user.name ? `Apoiar ${user.name}` : "Apoie o Criador"}
-          </h3>
-
-          <FormDonate slug={user.username!} creatorId={user.connectedStripeAccountId ?? ""}/> 
-
-        </section>
-      </div>
     </div>
   )
 }

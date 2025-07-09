@@ -40,7 +40,7 @@ export function DonationTable({ data }: DonationTableProps) {
                   {formatCurrency(donation.amount / 100)} {/* Convertendo centavos para reais */}
                 </TableCell>
                 <TableCell className="text-center">
-                  {donation.createdAt.toDateString()}
+                  {formatDate(donation.createdAt)}
                 </TableCell>
               </TableRow>
             ))}
@@ -59,7 +59,7 @@ export function DonationTable({ data }: DonationTableProps) {
               <p className="text-sm text-muted-foreground mb-2">{donation.donorMessage}</p>
               <div className="flex justify-between items-center">
                 <span className="text-green-500 font-semibold">
-                  {donation.amount}
+                  {formatCurrency(donation.amount / 100)} {/* Convertendo centavos para reais */}
                 </span>
                 <span className="text-sm text-muted-foreground">
                   {formatDate(donation.createdAt)}
