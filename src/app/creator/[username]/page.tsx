@@ -2,7 +2,6 @@ import Image from "next/image";
 import { getInfoUser } from "./_data-access/get-info";
 import { notFound } from "next/navigation";
 import { FormDonate } from "./_components/form";
-import { User } from "lucide-react";
 
 export default async function Apoia({
   params,
