@@ -3,15 +3,15 @@
 import { prisma } from "@/lib/prisma"
 import { z } from "zod"
 
-const createUsernameSchema = z.object({
+const getInfoUserSchema = z.object({
     username: z.string({ message: "O username é obrigatório"})
 })
 
-type createUsernameSchema = z.infer<typeof createUsernameSchema>
+type GetInfoUserSchema = z.infer<typeof getInfoUserSchema>
 
-export async function getInfoUser(data: createUsernameSchema){
+export async function getInfoUser(data: GetInfoUserSchema){
 
-  const schema = createUsernameSchema.safeParse(data)
+  const schema = getInfoUserSchema.safeParse(data)
 
   if(!schema.success){
     return null
