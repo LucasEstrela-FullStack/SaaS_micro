@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import {
   Table,
@@ -10,14 +12,42 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Donation } from '@/generated/prisma';
 import { formatCurrency, formatDate } from '@/utils/format';
+import { useQuery } from '@tanstack/react-query';
 
-type DonationProp = Pick<Donation, 'id' | 'amount' | 'createdAt' | 'donorMessage' | 'donorName'>;
-
-interface DonationTableProps{
-  data: DonationProp []
+interface ResponseData{
+  data: Donation[]
 }
 
-export function DonationTable({ data }: DonationTableProps) {
+export function DonationTable() {
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['get-donates'],
+    queryFn: async () => {
+
+      const url = `${process.env.NEXT_PUBLIC_HOST_URL}/api/donates`;
+
+      const response = await fetch(url)
+      const json = await response.json() as ResponseData;
+
+      if(!response.ok){
+        return [];
+      }
+
+      return json.data;
+
+    },
+    refetchInterval: 10000 // Atualiza a cada 20 segundos
+  })
+
+  if(isLoading){
+    return (
+      <div className="flex items-center justify-center h-64">
+        <p className='text-center text-gray-700'>Carregando...</p>
+      </div>
+    );
+  }
+
+
   return (
     <>
       {/* Versão para desktop */}
@@ -32,7 +62,7 @@ export function DonationTable({ data }: DonationTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((donation) => (
+            {data && data.map((donation) => (
               <TableRow key={donation.id}>
                 <TableCell className="font-medium">{donation.donorName}</TableCell>
                 <TableCell className="max-w-72">{donation.donorMessage}</TableCell>
@@ -50,7 +80,7 @@ export function DonationTable({ data }: DonationTableProps) {
 
       {/* Versão para mobile */}
       <div className="lg:hidden space-y-4">
-        {data.map((donation) => (
+        {data && data.map((donation) => (
           <Card key={donation.id}>
             <CardHeader>
               <CardTitle className="text-lg">{donation.donorName}</CardTitle>

@@ -16,9 +16,9 @@ export default async function Dashboard() {
 
   const urlStripeDashboard = await getStripeDashboard(session.user.connectedStripeAccountId)
 
-  const donates = await getAllDonates(session.user.id)
+  // const donates = await getAllDonates(session.user.id)
 
-  console.log("Donates:", donates)
+  console.log("Donates:")
 
   return (
     <div className="p-4">
@@ -30,6 +30,7 @@ export default async function Dashboard() {
           <a
            href={urlStripeDashboard}
            className="bg-zinc-900 px-4 py-1 rounded-md text-white cursor-pointer"
+           target="_blank"
            >
             Ajustar Conta
           </a>
@@ -52,7 +53,7 @@ export default async function Dashboard() {
           Últimas doações
         </h2>
       
-        <DonationTable data={donates.data}/>
+        <DonationTable />
       </>
       
       )}
